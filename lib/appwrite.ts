@@ -68,9 +68,21 @@ export async function createUser(
   }
 }
 
+// const deleteSession = async () => {
+//   try {
+//     const activeSessions = await account.listSessions();
+//     if (activeSessions.total > 0) {
+//       await account.deleteSession("current");
+//     }
+//   } catch (error) {
+//     console.log("No session available.");
+//   }
+// };
+
 // Sign In
 export async function signIn(email: string, password: string) {
   try {
+    // await deleteSession();
     const session = await account.createEmailPasswordSession(email, password);
 
     return session;
@@ -199,19 +211,19 @@ export async function getCurrentUser() {
 //   }
 // }
 
-// // Get all video Posts
-// export async function getAllPosts() {
-//   try {
-//     const posts = await databases.listDocuments(
-//       config.databaseId,
-//       config.videoCollectionId
-//     );
+// Get all video Posts
+export async function getAllPosts() {
+  try {
+    const posts = await databases.listDocuments(
+      config.databaseId,
+      config.videoCollectionId
+    );
 
-//     return posts.documents;
-//   } catch (error:any) {
-//     throw new Error(error);
-//   }
-// }
+    return posts.documents;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+}
 
 // // Get video posts created by user
 // export async function getUserPosts(userId) {
@@ -245,17 +257,17 @@ export async function getCurrentUser() {
 //   }
 // }
 
-// // Get latest created video posts
-// export async function getLatestPosts() {
-//   try {
-//     const posts = await databases.listDocuments(
-//       config.databaseId,
-//       config.videoCollectionId,
-//       [Query.orderDesc("$createdAt"), Query.limit(7)]
-//     );
+// Get latest created video posts
+export async function getLatestPosts() {
+  try {
+    const posts = await databases.listDocuments(
+      config.databaseId,
+      config.videoCollectionId,
+      [Query.orderDesc("$createdAt"), Query.limit(7)]
+    );
 
-//     return posts.documents;
-//   } catch (error:any) {
-//     throw new Error(error);
-//   }
-// }
+    return posts.documents;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+}
