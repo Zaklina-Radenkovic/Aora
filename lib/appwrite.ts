@@ -240,22 +240,22 @@ export async function getAllPosts() {
 //   }
 // }
 
-// // Get video posts that matches search query
-// export async function searchPosts(query) {
-//   try {
-//     const posts = await databases.listDocuments(
-//       config.databaseId,
-//       config.videoCollectionId,
-//       [Query.search("title", query)]
-//     );
+// Get video posts that matches search query
+export async function searchPosts(query: string) {
+  try {
+    const posts = await databases.listDocuments(
+      config.databaseId,
+      config.videoCollectionId,
+      [Query.search("title", query)]
+    );
 
-//     if (!posts) throw new Error("Something went wrong");
+    if (!posts) throw new Error("Something went wrong");
 
-//     return posts.documents;
-//   } catch (error:any) {
-//     throw new Error(error);
-//   }
-// }
+    return posts.documents;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+}
 
 // Get latest created video posts
 export async function getLatestPosts() {

@@ -14,8 +14,8 @@ import { getAllPosts, getLatestPosts } from "@/lib/appwrite";
 
 export interface VideoPostProps {
   $id: string;
-  title?: string;
-  thumbnail?: string;
+  title: string;
+  thumbnail: string;
   video: string;
   creator: {
     username: string;
@@ -24,10 +24,11 @@ export interface VideoPostProps {
 }
 
 const Home = () => {
-  const { data: posts, refetch } = useAppwrite<VideoPostProps | any>(
+  const { data: posts, refetch } = useAppwrite<VideoPostProps[] | any>(
     getAllPosts
   );
-  const { data: latestPosts } = useAppwrite<VideoPostProps | any>(
+
+  const { data: latestPosts } = useAppwrite<VideoPostProps[] | any>(
     getLatestPosts
   );
   const [refreshing, setRefreshing] = useState(false);
