@@ -2,17 +2,18 @@ import { createContext, useContext, useEffect, useState } from "react";
 
 import { getCurrentUser } from "../lib/appwrite";
 
-interface User {
+export interface User {
   id: string;
-  name: string;
+  username: string;
   email: string;
+  avatar: string;
 }
 
 interface GlobalContextType {
   isLoggedIn: boolean;
   setIsLoggedIn: React.Dispatch<React.SetStateAction<boolean>>;
   user: User | null;
-  setUser: React.Dispatch<React.SetStateAction<null>>;
+  setUser: React.Dispatch<React.SetStateAction<null | User>>;
   isLoading: boolean;
 }
 
@@ -32,15 +33,25 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
   const [isLoggedIn, setIsLoggedIn] = useState(false);
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+  const isUser = (res: any): res is User => {
+    return (
+      res &&
+      typeof res.id === "string" &&
+      typeof res.username === "string" &&
+      typeof res.email === "string" &&
+      typeof res.avatar === "string"
+    );
+  };
 
   useEffect(() => {
     getCurrentUser()
       .then((res) => {
-        if (res) {
+        if (isUser(res)) {
           setIsLoggedIn(true);
-          //@ts-ignore
+
           setUser(res);
         } else {
           setIsLoggedIn(false);

@@ -6,13 +6,12 @@ import { View, Text, ScrollView, Dimensions, Alert, Image } from "react-native";
 import { images } from "../../constants";
 import FormField from "@/components/FormField";
 import CustomButton from "@/components/CustomButton";
-import { createUser } from "@/lib/appwrite";
-// import { createUser } from "../../lib/appwrite";
 
-// import { useGlobalContext } from "../../context/GlobalProvider";
+import { createUser } from "@/lib/appwrite";
+import { useGlobalContext, User } from "../../context/GlobalProvider";
 
 const SignUp = () => {
-  // const { setUser, setIsLogged } = useGlobalContext();
+  const { setUser, setIsLoggedIn } = useGlobalContext();
 
   const [isSubmitting, setIsSubmittin] = useState(false);
   const [form, setForm] = useState({
@@ -24,13 +23,14 @@ const SignUp = () => {
   const submit = async () => {
     if (form.username === "" || form.email === "" || form.password === "") {
       Alert.alert("Error", "Please fill in all fields");
+      return;
     }
     setIsSubmittin(true);
     try {
       const result = await createUser(form.email, form.password, form.username);
 
-      // setUser(result);
-      // setIsLogged(true);
+      setUser(result as unknown as User);
+      setIsLoggedIn(true);
       router.replace("/home");
     } catch (error: any) {
       Alert.alert("Error", error.message);

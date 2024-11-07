@@ -124,16 +124,16 @@ export async function getCurrentUser() {
   }
 }
 
-// // Sign Out
-// export async function signOut() {
-//   try {
-//     const session = await account.deleteSession("current");
+// Sign Out
+export async function signOut() {
+  try {
+    const session = await account.deleteSession("current");
 
-//     return session;
-//   } catch (error:any) {
-//     throw new Error(error);
-//   }
-// }
+    return session;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+}
 
 // // Upload File
 // export async function uploadFile(file, type) {
@@ -225,20 +225,20 @@ export async function getAllPosts() {
   }
 }
 
-// // Get video posts created by user
-// export async function getUserPosts(userId) {
-//   try {
-//     const posts = await databases.listDocuments(
-//       config.databaseId,
-//       config.videoCollectionId,
-//       [Query.equal("creator", userId)]
-//     );
+// Get video posts created by user
+export async function getUserPosts(userId: string) {
+  try {
+    const posts = await databases.listDocuments(
+      config.databaseId,
+      config.videoCollectionId,
+      [Query.equal("creator", userId)]
+    );
 
-//     return posts.documents;
-//   } catch (error:any) {
-//     throw new Error(error);
-//   }
-// }
+    return posts.documents;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+}
 
 // Get video posts that matches search query
 export async function searchPosts(query: string) {
