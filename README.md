@@ -1,6 +1,6 @@
 <div align="center">
   <br />
-    <img src="" alt="Project Banner">
+    <img src="https://raw.githubusercontent.com/Zaklina-Radenkovic/Aora/refs/heads/main/assets/pages/logo.png" alt="Project Banner">
   <br />
 
   
@@ -48,22 +48,22 @@ Built with React Native for seamless user experiences, Animatable for captivatin
 
 - Onboarding Page:
   <br />
-  <img src="https://raw.githubusercontent.com/Zaklina-Radenkovic/Aora/refs/heads/main/assets/pages/onboarding.PNG" alt="Onboarding Page">
+  <img src="https://raw.githubusercontent.com/Zaklina-Radenkovic/Aora/refs/heads/main/assets/pages/onboarding.png" alt="Onboarding Page">
   <br />
   <br />
 - Sign Up Page:
   <br />
-  <img src="https://raw.githubusercontent.com/Zaklina-Radenkovic/Aora/refs/heads/main/assets/pages/signup.PNG" alt="Sign Up page">
+  <img src="https://raw.githubusercontent.com/Zaklina-Radenkovic/Aora/refs/heads/main/assets/pages/signup.png" alt="Sign Up page">
   <br />
   <br />
 - Login Page:
   <br />
-  <img src="https://raw.githubusercontent.com/Zaklina-Radenkovic/Aora/refs/heads/main/assets/pages/signin.PNG" alt="Login Page">
+  <img src="https://raw.githubusercontent.com/Zaklina-Radenkovic/Aora/refs/heads/main/assets/pages/signin.png" alt="Login Page">
   <br />
   <br />
 - Home Page:
   <br />
-  <img src="https://raw.githubusercontent.com/Zaklina-Radenkovic/Aora/refs/heads/main/assets/pages/home.PNG" alt="Home Page">
+  <img src="https://raw.githubusercontent.com/Zaklina-Radenkovic/Aora/refs/heads/main/assets/pages/home.png" alt="Home Page">
   <br />
   <br />
 
