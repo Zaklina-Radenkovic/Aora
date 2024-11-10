@@ -10,13 +10,12 @@ interface VideoCardProps {
 }
 
 const VideoCard = ({
-  video: {
-    title,
-    thumbnail,
-    video: videoUri,
-    creator: { username, avatar },
-  },
-}: VideoCardProps) => {
+  title,
+  creator,
+  avatar,
+  thumbnail,
+  video,
+}: VideoPostProps) => {
   const [play, setPlay] = useState(false);
 
   return (
@@ -42,7 +41,7 @@ const VideoCard = ({
               className="text-xs text-gray-100 font-pregular"
               numberOfLines={1}
             >
-              {username}
+              {creator}
             </Text>
           </View>
         </View>
@@ -53,20 +52,21 @@ const VideoCard = ({
       </View>
 
       {play ? (
-        <Video
-          source={{ uri: videoUri }}
-          className="w-full h-60 rounded-xl mt-3"
-          resizeMode={ResizeMode.CONTAIN}
-          useNativeControls
-          shouldPlay
-          onPlaybackStatusUpdate={(status) => {
-            //(status.isPlaying)
-            if (status.isLoaded && status.didJustFinish) {
-              setPlay(false);
-            }
-          }}
-          onError={(error) => console.error("Video playback error: ", error)}
-        />
+        <View className="w-full h-60 rounded-xl mt-3 overflow-hidden">
+          <Video
+            source={{ uri: video }}
+            style={{ flex: 1 }}
+            resizeMode={ResizeMode.COVER}
+            useNativeControls
+            shouldPlay
+            onPlaybackStatusUpdate={(status) => {
+              if (status.isLoaded && status.didJustFinish) {
+                setPlay(false);
+              }
+            }}
+            onError={(error) => console.error("Video playback error: ", error)}
+          />
+        </View>
       ) : (
         <TouchableOpacity
           activeOpacity={0.7}

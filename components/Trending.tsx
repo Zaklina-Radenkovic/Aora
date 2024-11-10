@@ -6,6 +6,7 @@ import {
   Image,
   ImageBackground,
   TouchableOpacity,
+  View,
 } from "react-native";
 
 import { icons } from "../constants";
@@ -40,18 +41,21 @@ const TrendingItem = ({ activeItem, item }: { activeItem: any; item: any }) => {
       duration={500}
     >
       {play ? (
-        <Video
-          source={{ uri: item.video }}
-          className="w-52 h-72 rounded-[33px] mt-3 bg-white/10"
-          resizeMode={ResizeMode.CONTAIN}
-          useNativeControls
-          shouldPlay
-          onPlaybackStatusUpdate={(status) => {
-            if (status.isLoaded && status.didJustFinish) {
-              setPlay(false);
-            }
-          }}
-        />
+        <View className="w-52 h-72 rounded-[33px] mt-3 bg-white/10">
+          <Video
+            source={{ uri: item.video }}
+            style={{ flex: 1 }}
+            resizeMode={ResizeMode.COVER}
+            useNativeControls
+            shouldPlay
+            onPlaybackStatusUpdate={(status) => {
+              if (status.isLoaded && status.didJustFinish) {
+                setPlay(false);
+              }
+            }}
+            onError={(error) => console.error("Video playback error: ", error)}
+          />
+        </View>
       ) : (
         <TouchableOpacity
           className="relative flex justify-center items-center"

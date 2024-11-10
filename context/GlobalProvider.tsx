@@ -15,6 +15,8 @@ interface GlobalContextType {
   user: User | null;
   setUser: React.Dispatch<React.SetStateAction<null | User>>;
   isLoading: boolean;
+  newPostCreated: boolean;
+  setNewPostCreated: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 const defaultContextValues: GlobalContextType = {
@@ -23,6 +25,8 @@ const defaultContextValues: GlobalContextType = {
   user: null,
   setUser: () => {},
   isLoading: true,
+  newPostCreated: false,
+  setNewPostCreated: () => {},
 };
 
 const GlobalContext = createContext<GlobalContextType | undefined>(
@@ -36,10 +40,12 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
+  const [newPostCreated, setNewPostCreated] = useState(false);
+
   const isUser = (res: any): res is User => {
     return (
       res &&
-      typeof res.id === "string" &&
+      typeof res.$id === "string" &&
       typeof res.username === "string" &&
       typeof res.email === "string" &&
       typeof res.avatar === "string"
@@ -74,6 +80,8 @@ const GlobalProvider: React.FC<{ children: React.ReactNode }> = ({
         user,
         setUser,
         isLoading,
+        newPostCreated,
+        setNewPostCreated,
       }}
     >
       {children}

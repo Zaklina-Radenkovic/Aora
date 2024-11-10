@@ -68,21 +68,21 @@ export async function createUser(
   }
 }
 
-// const deleteSession = async () => {
-//   try {
-//     const activeSessions = await account.listSessions();
-//     if (activeSessions.total > 0) {
-//       await account.deleteSession("current");
-//     }
-//   } catch (error) {
-//     console.log("No session available.");
-//   }
-// };
+const deleteSession = async () => {
+  try {
+    const activeSessions = await account.listSessions();
+    if (activeSessions.total > 0) {
+      await account.deleteSession("current");
+    }
+  } catch (error) {
+    console.log("No session available.");
+  }
+};
 
 // Sign In
 export async function signIn(email: string, password: string) {
   try {
-    // await deleteSession();
+    await deleteSession();
     const session = await account.createEmailPasswordSession(email, password);
 
     return session;
@@ -246,7 +246,7 @@ export async function getUserPosts(userId: string) {
     const posts = await databases.listDocuments(
       config.databaseId,
       config.videoCollectionId,
-      [Query.equal("creator", userId)]
+      [Query.equal("creator", userId), Query.orderDesc("$createdAt")]
     );
 
     return posts.documents;

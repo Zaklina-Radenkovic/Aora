@@ -28,7 +28,7 @@ interface FormState {
 }
 
 const Create = () => {
-  const { user } = useGlobalContext();
+  const { user, setNewPostCreated } = useGlobalContext();
   const [uploading, setUploading] = useState(false);
   const [form, setForm] = useState<FormState>({
     title: "",
@@ -95,6 +95,7 @@ const Create = () => {
         userId: user?.$id,
       });
 
+      setNewPostCreated(true);
       Alert.alert("Success", "Post uploaded successfully");
       router.push("/home");
     } catch (error: any) {
@@ -133,7 +134,7 @@ const Create = () => {
             {form.video ? (
               <Video
                 source={{ uri: form.video.uri }}
-                className="w-full h-64 rounded-2xl"
+                style={{ width: "100%", height: 240, borderRadius: 16 }}
                 //useNativeControls
                 resizeMode={ResizeMode.COVER}
                 //isLooping

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { View, Text, FlatList, Image, RefreshControl } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -13,38 +13,53 @@ import { getAllPosts, getLatestPosts } from "@/lib/appwrite";
 import { useGlobalContext } from "@/context/GlobalProvider";
 
 export interface VideoPostProps {
-  $id: string;
+  $id?: string;
   title: string;
   thumbnail: string;
   video: string;
-  creator: {
-    username: string;
-    avatar: string;
-  };
+  creator: string;
+  avatar: string;
 }
 
 const Home = () => {
-  const { user } = useGlobalContext();
-  const { data: posts, refetch } = useAppwrite<VideoPostProps[] | any>(
-    getAllPosts
-  );
-  const { data: latestPosts } = useAppwrite<VideoPostProps[] | any>(
-    getLatestPosts
-  );
+  const { user, newPostCreated, setNewPostCreated } = useGlobalContext();
+  const { data: posts, refetch: refetchPosts } = useAppwrite<
+    VideoPostProps[] | any
+  >(getAllPosts);
+  const { data: latestPosts, refetch: refetchLatestPosts } = useAppwrite<
+    VideoPostProps[] | any
+  >(getLatestPosts);
   const [refreshing, setRefreshing] = useState(false);
 
   const onRefresh = async () => {
     setRefreshing(true);
-    await refetch();
+    await refetchPosts();
+    await refetchLatestPosts();
     setRefreshing(false);
   };
 
+  useEffect(() => {
+    if (newPostCreated) {
+      refetchPosts();
+      refetchLatestPosts();
+      setNewPostCreated(false);
+    }
+  }, [newPostCreated]);
+
   return (
     <SafeAreaView className="bg-primary ">
-      <FlatList<VideoPostProps>
+      <FlatList
         data={posts}
         keyExtractor={(item) => item.$id}
-        renderItem={({ item }) => <VideoCard video={item} />}
+        renderItem={({ item }) => (
+          <VideoCard
+            title={item.title}
+            thumbnail={item.thumbnail}
+            video={item.video}
+            creator={item.creator.username}
+            avatar={item.creator.avatar}
+          />
+        )}
         ListHeaderComponent={() => (
           <View className="flex my-6 px-4 space-y-6">
             <View className="flex justify-between items-start flex-row mb-6">
@@ -66,7 +81,6 @@ const Home = () => {
               </View>
             </View>
 
-            {/* <SearchInput /> */}
             <SearchInput initialQuery={undefined} />
 
             <View className="w-full flex-1 pt-5 pb-8">
