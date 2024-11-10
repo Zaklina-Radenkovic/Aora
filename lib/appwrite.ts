@@ -135,88 +135,103 @@ export async function signOut() {
   }
 }
 
-// // Upload File
-// export async function uploadFile(file, type) {
-//   if (!file) return;
+// Upload File
+//@ts-ignore
+export async function uploadFile(file, type) {
+  if (!file) return;
 
-//   const { mimeType, ...rest } = file;
-//   const asset = { type: mimeType, ...rest };
+  const { mimeType, ...rest } = file;
+  // const asset = { type: mimeType, ...rest };
+  const asset = {
+    name: file.fileName,
+    type: type.mimeType,
+    size: file.fileSize,
+    uri: file.uri,
+  };
 
-//   try {
-//     const uploadedFile = await storage.createFile(
-//       config.storageId,
-//       ID.unique(),
-//       asset
-//     );
+  try {
+    const uploadedFile = await storage.createFile(
+      config.storageId,
+      ID.unique(),
+      asset
+    );
 
-//     const fileUrl = await getFilePreview(uploadedFile.$id, type);
-//     return fileUrl;
-//   } catch (error:any) {
-//     throw new Error(error);
-//   }
-// }
+    const fileUrl = await getFilePreview(uploadedFile.$id, type);
+    return fileUrl;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+}
 
-// // Get File Preview
-// export async function getFilePreview(fileId, type) {
-//   let fileUrl;
+// Get File Preview
+export async function getFilePreview(fileId: string, type: string) {
+  let fileUrl;
 
-//   try {
-//     if (type === "video") {
-//       fileUrl = storage.getFileView(config.storageId, fileId);
-//     } else if (type === "image") {
-//       fileUrl = storage.getFilePreview(
-//         config.storageId,
-//         fileId,
-//         2000,
-//         2000,
-//         "top",
-//         100
-//       );
-//     } else {
-//       throw new Error("Invalid file type");
-//     }
+  try {
+    if (type === "video") {
+      fileUrl = storage.getFileView(config.storageId, fileId);
+    } else if (type === "image") {
+      fileUrl = storage.getFilePreview(
+        config.storageId,
+        fileId,
+        2000,
+        2000,
+        //@ts-ignore
+        "top",
+        100
+      );
+    } else {
+      throw new Error("Invalid file type");
+    }
 
-//     if (!fileUrl) throw Error;
+    if (!fileUrl) throw Error;
 
-//     return fileUrl;
-//   } catch (error:any) {
-//     throw new Error(error);
-//   }
-// }
+    return fileUrl;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+}
 
-// // Create Video Post
-// export async function createVideoPost(form) {
-//   try {
-//     const [thumbnailUrl, videoUrl] = await Promise.all([
-//       uploadFile(form.thumbnail, "image"),
-//       uploadFile(form.video, "video"),
-//     ]);
+// Create Video Post
+export async function createVideoPost(form: {
+  userId: any;
+  title: any;
+  video: any;
+  thumbnail: any;
+  prompt: any;
+}) {
+  try {
+    const [thumbnailUrl, videoUrl] = await Promise.all([
+      uploadFile(form.thumbnail, "image"),
+      uploadFile(form.video, "video"),
+    ]);
 
-//     const newPost = await databases.createDocument(
-//       config.databaseId,
-//       config.videoCollectionId,
-//       ID.unique(),
-//       {
-//         title: form.title,
-//         thumbnail: thumbnailUrl,
-//         video: videoUrl,
-//         prompt: form.prompt,
-//         creator: form.userId,
-//       }
-//     );
+    const newPost = await databases.createDocument(
+      config.databaseId,
+      config.videoCollectionId,
+      ID.unique(),
+      {
+        title: form.title,
+        thumbnail: thumbnailUrl,
+        video: videoUrl,
+        prompt: form.prompt,
+        creator: form.userId,
+      }
+    );
 
-//     return newPost;
-//   } catch (error:any) {
-//     throw new Error(error);
-//   }
-// }
+    return newPost;
+  } catch (error: any) {
+    throw new Error(error);
+  }
+}
 
 // Get all video Posts
 export async function getAllPosts() {
   try {
     const posts = await databases.listDocuments(
       config.databaseId,
-      config.videoCollectionId
+      config.videoCollectionId,
+      [Query.orderDesc("$createdAt")]
     );
 
     return posts.documents;

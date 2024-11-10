@@ -1,12 +1,13 @@
 import { StatusBar } from "expo-status-bar";
-import { Image, View, Text, ScrollView } from "react-native";
-
 import { Redirect, router } from "expo-router";
+import { Image, View, Text, ScrollView } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
 import { images } from "@/constants";
 import CustomButton from "../components/CustomButton";
+
 import { useGlobalContext } from "@/context/GlobalProvider";
+import Loader from "@/components/Loader";
 
 export default function HomeScreen() {
   const { isLoading, isLoggedIn } = useGlobalContext();
@@ -15,6 +16,8 @@ export default function HomeScreen() {
 
   return (
     <SafeAreaView className="bg-primary h-full">
+      <Loader isLoading={isLoading} />
+
       <ScrollView contentContainerStyle={{ height: "100%" }}>
         <View className="w-full justify-center items-center min-h-[85vh] px-4">
           <Image

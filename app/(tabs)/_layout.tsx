@@ -1,8 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import { Tabs, Redirect } from "expo-router";
-import { View, Text, Image, ImageSourcePropType } from "react-native";
 
+import { View, Text, Image, ImageSourcePropType } from "react-native";
 import { icons } from "../../constants";
+
+import { useGlobalContext } from "@/context/GlobalProvider";
+import Loader from "@/components/Loader";
 
 const TabIcon = ({
   icon,
@@ -34,6 +37,10 @@ const TabIcon = ({
 };
 
 const TabsLayout = () => {
+  const { isLoading, isLoggedIn } = useGlobalContext();
+
+  if (!isLoading && !isLoggedIn) return <Redirect href="/sign-in" />;
+
   return (
     <>
       <Tabs
@@ -64,7 +71,7 @@ const TabsLayout = () => {
             ),
           }}
         />
-        <Tabs.Screen
+        {/* <Tabs.Screen
           name="bookmark"
           options={{
             title: "Bookmark",
@@ -78,7 +85,7 @@ const TabsLayout = () => {
               />
             ),
           }}
-        />
+        /> */}
 
         <Tabs.Screen
           name="create"
@@ -111,6 +118,9 @@ const TabsLayout = () => {
           }}
         />
       </Tabs>
+
+      <Loader isLoading={isLoading} />
+      <StatusBar backgroundColor="#161622" style="light" />
     </>
   );
 };

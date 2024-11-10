@@ -17,7 +17,6 @@ const VideoCard = ({
     creator: { username, avatar },
   },
 }: VideoCardProps) => {
-  //const VideoCard = ({ title, creator, avatar, thumbnail, video }) => {
   const [play, setPlay] = useState(false);
 
   return (

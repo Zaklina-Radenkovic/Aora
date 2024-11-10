@@ -1,7 +1,6 @@
 import { useState } from "react";
-import { View, Text, FlatList, Image } from "react-native";
+import { View, Text, FlatList, Image, RefreshControl } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { RefreshControl } from "react-native";
 
 import { images } from "../../constants";
 import Trending from "@/components/Trending";
@@ -45,15 +44,7 @@ const Home = () => {
       <FlatList<VideoPostProps>
         data={posts}
         keyExtractor={(item) => item.$id}
-        renderItem={({ item }) => (
-          <VideoCard
-            // title={item.title}
-            // thumbnail={item.thumbnail}
-            video={item}
-            // creator={item.creator.username}
-            // avatar={item.creator.avatar}
-          />
-        )}
+        renderItem={({ item }) => <VideoCard video={item} />}
         ListHeaderComponent={() => (
           <View className="flex my-6 px-4 space-y-6">
             <View className="flex justify-between items-start flex-row mb-6">
@@ -75,6 +66,7 @@ const Home = () => {
               </View>
             </View>
 
+            {/* <SearchInput /> */}
             <SearchInput initialQuery={undefined} />
 
             <View className="w-full flex-1 pt-5 pb-8">

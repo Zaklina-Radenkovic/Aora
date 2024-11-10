@@ -3,11 +3,12 @@ import { useLocalSearchParams } from "expo-router";
 import { View, Text, FlatList } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import useAppwrite from "../../lib/useAppwrite";
-import { searchPosts } from "../../lib/appwrite";
 import EmptyState from "@/components/EmptyState";
 import VideoCard from "@/components/VideoCard";
 import SearchInput from "@/components/SearchInput";
+
+import useAppwrite from "../../lib/useAppwrite";
+import { searchPosts } from "../../lib/appwrite";
 
 const Search = () => {
   const { query } = useLocalSearchParams<{ query?: string }>();
@@ -23,16 +24,7 @@ const Search = () => {
       <FlatList
         data={posts}
         keyExtractor={(item) => item.$id}
-        renderItem={({ item }) => (
-          <VideoCard
-            // title={item.title}
-            // thumbnail={item.thumbnail}
-            video={item.video}
-            // creator={item.creator.username}
-            // avatar={item.creator.avatar}
-            //video={item}
-          />
-        )}
+        renderItem={({ item }) => <VideoCard video={item.video} />}
         ListHeaderComponent={() => (
           <>
             <View className="flex my-6 px-4">

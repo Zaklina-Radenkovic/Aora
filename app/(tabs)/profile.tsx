@@ -3,19 +3,19 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import { View, Image, FlatList, TouchableOpacity } from "react-native";
 
 import { icons } from "../../constants";
-import useAppwrite from "../../lib/useAppwrite";
 import VideoCard from "@/components/VideoCard";
 import EmptyState from "@/components/EmptyState";
 import InfoBox from "@/components/InfoBox";
 
+import useAppwrite from "../../lib/useAppwrite";
 import { useGlobalContext } from "../../context/GlobalProvider";
 import { getUserPosts, signOut } from "../../lib/appwrite";
 
 const Profile = () => {
   const { user, setUser, setIsLoggedIn } = useGlobalContext();
 
-  const { data: posts } = user?.id
-    ? useAppwrite(() => getUserPosts(user.id))
+  const { data: posts } = user?.$id
+    ? useAppwrite(() => getUserPosts(user.$id))
     : { data: [] };
 
   const logout = async () => {
@@ -31,15 +31,7 @@ const Profile = () => {
       <FlatList
         data={posts}
         keyExtractor={(item) => item.$id}
-        renderItem={({ item }) => (
-          <VideoCard
-            // title={item.title}
-            // thumbnail={item.thumbnail}
-            video={item.video}
-            // creator={item.creator.username}
-            // avatar={item.creator.avatar}
-          />
-        )}
+        renderItem={({ item }) => <VideoCard video={item.video} />}
         ListEmptyComponent={() => (
           <EmptyState
             title="No Videos Found"
